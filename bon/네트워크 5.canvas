@@ -1,0 +1,38 @@
+{
+	"nodes":[
+		{"id":"2fcf26f2d0218bdd","type":"text","text":"# 응용계층\n\n응용계층은 사용자(프로그램)과 맞닿아 있다. 사용자와 네트워크 서비스 간의 인터페이스를 제공하며, 사용자가 직접 접하는 애플리케이션과 서비스(웹 브라우징, 이메일 등)에 필요한 프로토콜을 처리한다.\n여기서 처리하는 프로토콜에는 HTTP/HTTPS, DNS등이 있다.\n","x":-320,"y":-300,"width":580,"height":240},
+		{"id":"f00fd574edfe9d0c","type":"text","text":"# DNS\nDNS(Domain Name System)는 사람이 이해하기 쉬운 도메인 이름(예: `www.example.com`)을 컴퓨터가 통신에 사용하는 IP 주소(예: `192.0.2.1`)로 변환해주는 역할을 한다.\n응용 계층 프로토콜(HTTPS,SMTP)은 도메인 이름을 사용해 통신을 시작하므로, 이들 프로토콜은 DNS를 통해 도메인을 IP로 변환해야만 통신을 할 수 있다.\n\n**요청 흐름**:\n1. 사용자가 브라우저에 URL을 입력하거나 이메일을 보낼 때, 응용 계층이 DNS 요청을 생성.\n2. DNS가 해당 도메인의 IP 주소를 응용 계층에 반환.\n3. 응용 계층은 반환된 IP를 사용해 대상 서버와 연결.","x":-320,"y":0,"width":580,"height":400},
+		{"id":"c57d7a69682395ea","type":"text","text":"## 도메인 네임서버\n도메인 네임서버는 DNS시스템을 구성하는 핵심 컴포넌트로, 도메인 이름과 관련된 정보를 저장하고 제공하는 서버이다. DNS요청에 대해 데이터를 제공하거나 다른 네임서버로 요청을 전달한다.\n\n\n### DNS와 네임서버의 관계\nDNS는 시스템, 네임서버는 컴포넌트이다.\nDNS는 도메인 이름과 IP주소 간 매핑을 관리하는 전체 시스템이고\n도메인 네임서버는 DNS시스템의 구성요소로, 데이터를 저장하고 제공하는 역할을 담당한다.\n\n\n### **요약**\n\n- **DNS**: 네임서버를 포함한 전체 시스템과 프로토콜.\n- **도메인 네임서버**: DNS 시스템에서 정보를 저장하고 제공하는 **서버**.\n- 네임서버는 DNS 요청을 처리하며, DNS 시스템이 제대로 작동하도록 지원함.","x":-320,"y":460,"width":580,"height":580},
+		{"id":"b2e309448241dce1","type":"text","text":"# www  .  example  .  com  .","x":-320,"y":1340,"width":502,"height":50},
+		{"id":"a777ca97e372045d","type":"text","text":"FQDN","x":-320,"y":1290,"width":502,"height":50},
+		{"id":"5fd4e8a8a3252b7d","type":"text","text":"3단계 : www","x":-320,"y":1390,"width":200,"height":50},
+		{"id":"5bb8de55586987ff","type":"text","text":"2단계 : example","x":-320,"y":1440,"width":200,"height":50},
+		{"id":"c3ff7ea1a66bc0e4","type":"text","text":"최상위 : .com\n(Top-Level-Domain)","x":-320,"y":1490,"width":200,"height":70},
+		{"id":"c40f559a16710ea7","type":"text","text":"루트 : . (보통 생략 됨)","x":-320,"y":1560,"width":200,"height":50},
+		{"id":"ceaf233e9e02f9ab","type":"text","text":"## 도메인 네임 단계","x":-320,"y":1160,"width":580,"height":80},
+		{"id":"ffb49ca1527a26d5","type":"text","text":"## 리졸빙 or 도메인 네임 풀이\nIP주소를 모르는 상태에서 도메인 네임에 대응되는 IP주소를 알아내는 과정을\n'도메인 네임풀이' 또는 '리졸빙한다' 라고 표현한다.\n이 과정에서 4가지 유형의 네임 서버가 사용된다\n\n- 로컬 네임 서버\n- 루트 네임 서버\n- TLD네임 서버\n- 책임 네임 서버\n\n---\n### 질의 순서\n\n로컬 네임 서버 → 루트 네임 서버 → TLD 네임 서버 → 책임 네임 서버\n","x":-320,"y":1680,"width":580,"height":421},
+		{"id":"2216415e88a5e9fc","type":"text","text":"### \bTLD 네임 서버\n- 2단계 도메인의 위치를 관리. 예를 들어 `.com` TLD서버는 `example.com` 과 같은 도메인의 책임 네임 서버 정보를 알고 있음.\n- `.com` TLD네임서버는 `example.com`의 책임 네임 서버를 반환한다.\n- 예 : `example.com`의 IP정보를 저장한 네임 서버를(ip) 알려줌.","x":-320,"y":2660,"width":580,"height":210},
+		{"id":"bd00dd310485540a","type":"text","text":"### 로컬 네임 서버 (Caching/Resolver Server)\n사용자의 네트워크 환경에서 가장 먼저 질의를 처리하며, 주로 ISP또는 조직의 네트워크에 위치함.\nDNS질의의 출발점.\n- 캐싱된 정보 반환 - 요청에 대해 캐싱된 정보가 있으면 반환\n- 계층적 질의 수행 - 캐시 정보가 없거나 만료된 경우 루트 네임 서버부터 시작해 상위 네임 서버로 질의 전달. 최종적으로 책임 네임서버에서 반환된 IP주소를 클라이언트에게 전달.","x":-320,"y":2180,"width":580,"height":295},
+		{"id":"0ee0e1a18192d68c","type":"text","text":"\b.com TLD","x":-920,"y":2557,"width":200,"height":50},
+		{"id":"f7dfbfdb653a3a17","type":"text","text":"\b.net TLD","x":-700,"y":2557,"width":200,"height":50},
+		{"id":"829bafcbe0494c18","type":"text","text":"naver 책임 네임 서버\n\nnaver.net\n","x":-720,"y":2865,"width":240,"height":170},
+		{"id":"af247274298a5361","type":"text","text":"example 책임 네임 서버\n\nexample.com\nexample.\bnet\n","x":-960,"y":2865,"width":240,"height":170},
+		{"id":"95938dfe148c45b4","type":"text","text":"### 책임 네임 서버 (권한 네임 서버)\n- \b2단계 도메인 및 그 하위 서브도메인을 담당.\n- `www.example.com` 의 정확한 IP주소를 반환한다.","x":-320,"y":2900,"width":580,"height":135},
+		{"id":"c5cff1e8c63d4020","type":"text","text":"### 루트 네임 서버\n- TLD의 위치를 관리\n- `www.example.com.` 에서 `.com`의 네임 서버를 찾음","x":-320,"y":2493,"width":580,"height":135},
+		{"id":"5564efc1ededa9f0","type":"text","text":"루트 : . (보통 생략 됨)","x":360,"y":2493,"width":200,"height":50},
+		{"id":"9f87042ec9e5a8c9","type":"text","text":"2단계 : example","x":360,"y":2918,"width":200,"height":50},
+		{"id":"f39d7c4f478c70ee","type":"text","text":"최상위 : .com\n(Top-Level-Domain)","x":360,"y":2730,"width":200,"height":70},
+		{"id":"3fe5e22bb4361037","type":"text","text":"3단계 : www","x":360,"y":2968,"width":200,"height":50},
+		{"id":"097a6e066cf28b6a","type":"text","text":"# www  .  example  .  com  .","x":360,"y":2610,"width":502,"height":50},
+		{"id":"ee105128e15dce7a","type":"text","text":"### **질의 흐름 예시 (FQDN: `www.example.com`)**\n\n1. 사용자가 `www.example.com`에 접속을 시도.\n2. **로컬 네임 서버**: 캐시 확인 → 없으면 루트 네임 서버에 질의.\n3. **루트 네임 서버**: `.com` TLD 네임 서버의 위치 반환.\n4. **TLD 네임 서버**: `example.com`의 책임 네임 서버를 반환.\n5. **책임 네임 서버**: `www.example.com`의 IP 주소 반환.\n6. 로컬 네임 서버는 IP 주소를 사용자에게 제공.","x":-342,"y":3120,"width":602,"height":412}
+	],
+	"edges":[
+		{"id":"0d09523b5cb4edc6","fromNode":"f00fd574edfe9d0c","fromSide":"bottom","toNode":"c57d7a69682395ea","toSide":"top"},
+		{"id":"947be67b04008940","fromNode":"c5cff1e8c63d4020","fromSide":"right","toNode":"5564efc1ededa9f0","toSide":"left"},
+		{"id":"d4f1cf29bef95daa","fromNode":"2216415e88a5e9fc","fromSide":"right","toNode":"f39d7c4f478c70ee","toSide":"left"},
+		{"id":"2a48cb62f8db06a5","fromNode":"95938dfe148c45b4","fromSide":"right","toNode":"9f87042ec9e5a8c9","toSide":"left"},
+		{"id":"0ff58c4d20830b9c","fromNode":"0ee0e1a18192d68c","fromSide":"bottom","toNode":"af247274298a5361","toSide":"top"},
+		{"id":"e998c9322f76cb78","fromNode":"f7dfbfdb653a3a17","fromSide":"bottom","toNode":"af247274298a5361","toSide":"top"},
+		{"id":"0c5bfa350bafb881","fromNode":"f7dfbfdb653a3a17","fromSide":"bottom","toNode":"829bafcbe0494c18","toSide":"top"}
+	]
+}
